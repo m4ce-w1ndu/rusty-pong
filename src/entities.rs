@@ -1,7 +1,8 @@
 use bevy::prelude::*;
 
 /// Left or right paddle field
-pub enum PaddleField {
+#[derive(Copy, Clone)]
+pub enum Field {
     Left,
     Right
 }
@@ -12,8 +13,8 @@ pub enum PaddleField {
 /// vertical line.
 #[derive(Component)]
 pub struct Paddle {
-    position: Vec2,
-    field: PaddleField
+    pub position: Vec2,
+    pub field: Field
 }
 
 /// Ball.
@@ -21,5 +22,15 @@ pub struct Paddle {
 /// This is the classic Pong ball.
 #[derive(Component)]
 pub struct Ball {
-    position: Vec2
+    pub position: Vec2
+}
+
+/// Score.
+/// 
+/// This component keeps the score and is tied with the scoreboard
+/// that will be printed on each side of the field.
+#[derive(Component)]
+pub struct Score {
+    pub value: i32,
+    pub field: Field
 }
