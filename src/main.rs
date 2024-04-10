@@ -1,6 +1,7 @@
 mod setup;
+mod entities;
 
-use setup::AppConfiguration;
+use setup::{AppConfiguration, DrawField};
 use bevy::{
     prelude::*
 };
@@ -9,5 +10,6 @@ use bevy::{
 fn main() {
     App::new()
         .add_plugins(AppConfiguration)
+        .add_plugins(DrawField)
         .run();
 }
