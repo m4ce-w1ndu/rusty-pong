@@ -22,7 +22,9 @@ pub struct Paddle {
 /// This is the classic Pong ball.
 #[derive(Component)]
 pub struct Ball {
-    pub position: Vec2
+    pub position: Vec2,
+    pub speed: f32,
+    pub visible: bool
 }
 
 /// Score.
