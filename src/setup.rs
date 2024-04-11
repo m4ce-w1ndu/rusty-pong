@@ -2,6 +2,8 @@ use bevy::{
     app::Plugin, prelude::*, sprite::{MaterialMesh2dBundle, Mesh2dHandle}, window::{PresentMode, Window, WindowPlugin, WindowTheme}, DefaultPlugins
 };
 
+use crate::entities::{Field, Paddle};
+
 /// Configuration plugin.
 /// 
 /// This plugin sets up the application, rendering the first
@@ -81,17 +83,23 @@ fn draw_paddles(
     let paddle_y_start = (SCREEN_HEIGHT / 2.0) - (PADDLE_HEIGHT / 2.0) - PADDLE_Y_OFFSET;
 
     // Spawn the paddles
-    commands.spawn(MaterialMesh2dBundle {
+    commands.spawn((MaterialMesh2dBundle {
         mesh: left_paddle,
         material: materials.add(Color::WHITE),
         transform: Transform::from_xyz(-paddle_x_start, paddle_y_start, 0.0),
         ..default()
-    });
+    }, Paddle {
+        position: Vec2::new(-paddle_x_start, paddle_y_start),
+        field: Field::Left
+    }));
 
-    commands.spawn(MaterialMesh2dBundle {
+    commands.spawn((MaterialMesh2dBundle {
         mesh: right_paddle,
         material: materials.add(Color::WHITE),
         transform: Transform::from_xyz(paddle_x_start, paddle_y_start, 0.0),
         ..default()
-    });
+    }, Paddle {
+        position: Vec2::new(paddle_x_start, paddle_y_start),
+        field: Field::Right
+    }));
 }
