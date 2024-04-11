@@ -6,7 +6,7 @@ use bevy::{
     DefaultPlugins
 };
 
-use crate::entities::{Ball, Field, Paddle};
+use crate::entities::{Ball, Field, Paddle, Score};
 
 /// Configuration plugin.
 /// 
@@ -38,6 +38,12 @@ pub const PADDLE_X_OFFSET: f32 = 10.0;
 
 /// Pong paddle Y-axis border offset
 pub const PADDLE_Y_OFFSET: f32 = 10.0;
+
+/// Paddle X-axis start position
+pub const PADDLE_X_START: f32 = (SCREEN_WIDTH / 2.0) - (PADDLE_WIDTH / 2.0) - PADDLE_X_OFFSET;
+
+/// Paddle Y-axis start position
+pub const PADDLE_Y_START: f32 = (SCREEN_HEIGHT / 2.0) - (PADDLE_HEIGHT / 2.0) - PADDLE_Y_OFFSET;
 
 /// Pong ball radius
 pub const BALL_RADIUS: f32 = 7.0;
@@ -99,29 +105,25 @@ fn draw_paddles(
     let left_paddle = Mesh2dHandle(meshes.add(Rectangle::new(PADDLE_WIDTH, PADDLE_HEIGHT)));
     let right_paddle = Mesh2dHandle(meshes.add(Rectangle::new(PADDLE_WIDTH, PADDLE_HEIGHT)));
 
-    // Paddles start positions
-    let paddle_x_start = (SCREEN_WIDTH / 2.0) - (PADDLE_WIDTH / 2.0) - PADDLE_X_OFFSET;
-    let paddle_y_start = (SCREEN_HEIGHT / 2.0) - (PADDLE_HEIGHT / 2.0) - PADDLE_Y_OFFSET;
-
     // Spawn the paddles
     commands.spawn((MaterialMesh2dBundle {
         mesh: left_paddle,
         material: materials.add(Color::WHITE),
-        transform: Transform::from_xyz(-paddle_x_start, paddle_y_start, 0.0),
+        transform: Transform::from_xyz(-PADDLE_X_START, PADDLE_Y_START, 0.0),
         ..default()
     }, Paddle {
-        position: Vec2::new(-paddle_x_start, paddle_y_start),
-        field: Field::Left
+        field: Field::Left,
+        score: Score { value: 0 }
     }));
 
     commands.spawn((MaterialMesh2dBundle {
         mesh: right_paddle,
         material: materials.add(Color::WHITE),
-        transform: Transform::from_xyz(paddle_x_start, paddle_y_start, 0.0),
+        transform: Transform::from_xyz(PADDLE_X_START, PADDLE_Y_START, 0.0),
         ..default()
     }, Paddle {
-        position: Vec2::new(paddle_x_start, paddle_y_start),
-        field: Field::Right
+        field: Field::Right,
+        score: Score { value: 0 }
     }));
 
     
@@ -145,7 +147,6 @@ fn draw_ball(
         visibility: Visibility::Hidden,
         ..default()
     }, Ball {
-        position: Vec2::new(0.0, 0.0),
         speed: 0.0,
         visible: false
     }));
