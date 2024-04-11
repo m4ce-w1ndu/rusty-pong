@@ -42,6 +42,15 @@ pub const PADDLE_Y_OFFSET: f32 = 10.0;
 /// Pong ball radius
 pub const BALL_RADIUS: f32 = 7.0;
 
+/// Number of half field line dots
+pub const HALF_LINE_DOTS: u8 = 40;
+
+/// Size of half-field line dots
+pub const HALF_DOT_SIZE: f32 = 7.0;
+
+/// Stride between half-field line dots
+pub const HALF_DOT_STRIDE: f32 = 20.0;
+
 impl Plugin for AppConfiguration {
     fn build(&self, app: &mut bevy::prelude::App) {
         app.add_plugins(DefaultPlugins.set(WindowPlugin {
@@ -75,8 +84,12 @@ fn draw_initial_configuration(
     draw_paddles(&mut commands, &mut meshes, &mut materials);
     // Draw ball
     draw_ball(&mut commands, &mut meshes, &mut materials);
+    // Draw half field line
+    draw_half(&mut commands, &mut meshes, &mut materials);
 }
 
+/// Draws the paddles on the playing field, binding the correct
+/// components to the paddle meshes.
 fn draw_paddles(
     commands: &mut Commands,
     meshes: &mut ResMut<Assets<Mesh>>,
@@ -114,6 +127,8 @@ fn draw_paddles(
     
 }
 
+
+/// Draws the ball on to the playing field.
 fn draw_ball(
     commands: &mut Commands,
     meshes: &mut ResMut<Assets<Mesh>>,
@@ -134,4 +149,29 @@ fn draw_ball(
         speed: 0.0,
         visible: false
     }));
+}
+
+/// Draws the playing field's half line.
+fn draw_half(
+    commands: &mut Commands,
+    meshes: &mut ResMut<Assets<Mesh>>,
+    materials: &mut ResMut<Assets<ColorMaterial>>) {
+    
+    // Starting position for the line drawing phase
+    let mut y_pos = -SCREEN_HEIGHT / 2.0;
+
+    // Create a single dot mesh
+    let dot = Mesh2dHandle(meshes.add(Rectangle::new(HALF_DOT_SIZE, HALF_DOT_SIZE)));
+
+    // Spawn all the dots
+    for _ in 0..HALF_LINE_DOTS {
+        commands.spawn(MaterialMesh2dBundle {
+            mesh: dot.clone(),
+            material: materials.add(Color::WHITE),
+            transform: Transform::from_xyz(0.0, y_pos, 0.0),
+            ..default()
+        });
+
+        y_pos += HALF_DOT_STRIDE;
+    }
 }
