@@ -1,8 +1,12 @@
 use bevy::{
-    app::Plugin, prelude::*, sprite::{MaterialMesh2dBundle, Mesh2dHandle}, window::{PresentMode, Window, WindowPlugin, WindowTheme}, DefaultPlugins
+    prelude::*,
+    app::Plugin, 
+    sprite::{MaterialMesh2dBundle, Mesh2dHandle},
+    window::{PresentMode, Window, WindowPlugin, WindowTheme},
+    DefaultPlugins
 };
 
-use crate::entities::{Field, Paddle};
+use crate::entities::{Ball, Field, Paddle};
 
 /// Configuration plugin.
 /// 
@@ -35,6 +39,9 @@ pub const PADDLE_X_OFFSET: f32 = 10.0;
 /// Pong paddle Y-axis border offset
 pub const PADDLE_Y_OFFSET: f32 = 10.0;
 
+/// Pong ball radius
+pub const BALL_RADIUS: f32 = 7.0;
+
 impl Plugin for AppConfiguration {
     fn build(&self, app: &mut bevy::prelude::App) {
         app.add_plugins(DefaultPlugins.set(WindowPlugin {
@@ -66,7 +73,8 @@ fn draw_initial_configuration(
     
     // Draw paddles
     draw_paddles(&mut commands, &mut meshes, &mut materials);
-    
+    // Draw ball
+    draw_ball(&mut commands, &mut meshes, &mut materials);
 }
 
 fn draw_paddles(
@@ -101,5 +109,29 @@ fn draw_paddles(
     }, Paddle {
         position: Vec2::new(paddle_x_start, paddle_y_start),
         field: Field::Right
+    }));
+
+    
+}
+
+fn draw_ball(
+    commands: &mut Commands,
+    meshes: &mut ResMut<Assets<Mesh>>,
+    materials: &mut ResMut<Assets<ColorMaterial>>) {
+
+    // Create the ball
+    let ball = Mesh2dHandle(meshes.add(Circle::new(BALL_RADIUS)));
+
+    // Spawn the ball
+    commands.spawn((MaterialMesh2dBundle {
+        mesh: ball,
+        material: materials.add(Color::WHITE),
+        transform: Transform::from_xyz(0.0, 0.0, 0.0),
+        visibility: Visibility::Hidden,
+        ..default()
+    }, Ball {
+        position: Vec2::new(0.0, 0.0),
+        speed: 0.0,
+        visible: false
     }));
 }
