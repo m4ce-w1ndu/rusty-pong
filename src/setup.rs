@@ -43,7 +43,7 @@ pub const PADDLE_Y_OFFSET: f32 = 10.0;
 pub const PADDLE_X_START: f32 = (SCREEN_WIDTH / 2.0) - (PADDLE_WIDTH / 2.0) - PADDLE_X_OFFSET;
 
 /// Paddle Y-axis start position
-pub const PADDLE_Y_START: f32 = (SCREEN_HEIGHT / 2.0) - (PADDLE_HEIGHT / 2.0) - PADDLE_Y_OFFSET;
+pub const PADDLE_Y_START: f32 = (PADDLE_HEIGHT / 2.0) - PADDLE_Y_OFFSET;
 
 /// Pong ball radius
 pub const BALL_RADIUS: f32 = 7.0;
@@ -128,7 +128,6 @@ fn draw_paddles(
 
     
 }
-
 
 /// Draws the ball on to the playing field.
 fn draw_ball(
