@@ -76,33 +76,29 @@ impl Plugin for AppConfiguration {
 // Plugin for field setup (implementation)
 impl Plugin for DrawField {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, draw_initial_configuration);
+        app.add_systems(Startup, setup_camera)
+            .add_systems(Startup, draw_paddles)
+            .add_systems(Startup, draw_ball)
+            .add_systems(Startup, draw_half);
     }
 }
 
 /// Calls the tree of functions that sets up the playing field
-fn draw_initial_configuration(
+fn setup_camera(
     mut commands: Commands,
-    mut meshes: ResMut<Assets<Mesh>>,
-    mut materials: ResMut<Assets<ColorMaterial>>) {
+    mut _meshes: ResMut<Assets<Mesh>>,
+    mut _materials: ResMut<Assets<ColorMaterial>>) {
 
     // Add a default 2D Orthogonal camera
     commands.spawn(Camera2dBundle::default());
-    
-    // Draw paddles
-    draw_paddles(&mut commands, &mut meshes, &mut materials);
-    // Draw ball
-    draw_ball(&mut commands, &mut meshes, &mut materials);
-    // Draw half field line
-    draw_half(&mut commands, &mut meshes, &mut materials);
 }
 
 /// Draws the paddles on the playing field, binding the correct
 /// components to the paddle meshes.
 fn draw_paddles(
-    commands: &mut Commands,
-    meshes: &mut ResMut<Assets<Mesh>>,
-    materials: &mut ResMut<Assets<ColorMaterial>>) {
+    mut commands: Commands,
+    mut meshes: ResMut<Assets<Mesh>>,
+    mut materials: ResMut<Assets<ColorMaterial>>) {
 
     // Create paddles
     let left_paddle = Mesh2dHandle(meshes.add(Rectangle::new(PADDLE_WIDTH, PADDLE_HEIGHT)));
@@ -134,9 +130,9 @@ fn draw_paddles(
 
 /// Draws the ball on to the playing field.
 fn draw_ball(
-    commands: &mut Commands,
-    meshes: &mut ResMut<Assets<Mesh>>,
-    materials: &mut ResMut<Assets<ColorMaterial>>) {
+    mut commands: Commands,
+    mut meshes: ResMut<Assets<Mesh>>,
+    mut materials: ResMut<Assets<ColorMaterial>>) {
 
     // Create the ball
     let ball = Mesh2dHandle(meshes.add(Circle::new(BALL_RADIUS)));
@@ -156,9 +152,9 @@ fn draw_ball(
 
 /// Draws the playing field's half line.
 fn draw_half(
-    commands: &mut Commands,
-    meshes: &mut ResMut<Assets<Mesh>>,
-    materials: &mut ResMut<Assets<ColorMaterial>>) {
+    mut commands: Commands,
+    mut meshes: ResMut<Assets<Mesh>>,
+    mut materials: ResMut<Assets<ColorMaterial>>) {
     
     // Starting position for the line drawing phase
     let mut y_pos = -SCREEN_HEIGHT / 2.0;
