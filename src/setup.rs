@@ -57,6 +57,7 @@ pub const HALF_DOT_SIZE: f32 = 7.0;
 /// Stride between half-field line dots
 pub const HALF_DOT_STRIDE: f32 = 20.0;
 
+/// Plugin for app configuration (implementation)
 impl Plugin for AppConfiguration {
     fn build(&self, app: &mut bevy::prelude::App) {
         app.add_plugins(DefaultPlugins.set(WindowPlugin {
@@ -72,12 +73,14 @@ impl Plugin for AppConfiguration {
     }
 }
 
+// Plugin for field setup (implementation)
 impl Plugin for DrawField {
     fn build(&self, app: &mut App) {
         app.add_systems(Startup, draw_initial_configuration);
     }
 }
 
+/// Calls the tree of functions that sets up the playing field
 fn draw_initial_configuration(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
