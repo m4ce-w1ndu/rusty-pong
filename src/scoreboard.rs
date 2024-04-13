@@ -6,10 +6,10 @@ use crate::{entities::Score, setup::SCREEN_WIDTH};
 pub struct ScoreboardPlugin;
 
 /// Size of scoreboard text font
-pub const SCOREBOARD_TEXT_SIZE: f32 = 96.0;
+pub const SCOREBOARD_TEXT_SIZE: f32 = 78.0;
 
 /// Scoreboard font to be loaded from assets
-pub const SCOREBOARD_FONT: &'static str = "fonts/AtlantisInternational.ttf";
+pub const SCOREBOARD_FONT: &'static str = "fonts/prstartk.ttf";
 
 /// Scoreboard top margin
 const SCOREBOARD_TOP_MARGIN: f32 = 10.0;
