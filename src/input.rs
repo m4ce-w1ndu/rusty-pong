@@ -6,7 +6,7 @@ use crate::{
 };
 
 /// Paddle movement speed
-pub const PADDLE_Y_SPEED: f32 = 2.5;
+pub const PADDLE_Y_SPEED: f32 = 4.0;
 
 pub fn player_input_system(
     _time: Res<Time>,

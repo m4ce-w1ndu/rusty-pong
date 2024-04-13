@@ -2,17 +2,20 @@ use bevy::prelude::*;
 
 use crate::{entities::Score, setup::SCREEN_WIDTH};
 
+/// Plugin to draw the scoreboard on the playing field
 pub struct ScoreboardPlugin;
 
+/// Size of scoreboard text font
 pub const SCOREBOARD_TEXT_SIZE: f32 = 96.0;
 
+/// Scoreboard font to be loaded from assets
 pub const SCOREBOARD_FONT: &'static str = "fonts/AtlantisInternational.ttf";
 
+/// Scoreboard top margin
 const SCOREBOARD_TOP_MARGIN: f32 = 10.0;
 
-const SCOREBOARD_LEFT_MARGIN: f32 = (SCREEN_WIDTH / 4.0) - (SCOREBOARD_TEXT_SIZE / 2.0);
-
-const SCOREBOARD_RIGHT_MARGIN: f32 = -SCOREBOARD_LEFT_MARGIN;
+/// Scoreboard horizontal margin
+const SCOREBOARD_HORI_MARGIN: f32 = (SCREEN_WIDTH / 4.0) - (SCOREBOARD_TEXT_SIZE / 2.0);
 
 impl Plugin for ScoreboardPlugin {
     fn build(&self, app: &mut App) {
@@ -20,6 +23,7 @@ impl Plugin for ScoreboardPlugin {
     }
 }
 
+/// Draws the scoreboard on the playing field
 fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn((TextBundle::from_section(
         "0",
@@ -31,8 +35,8 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         .with_text_justify(JustifyText::Center)
         .with_style(Style {
             position_type: PositionType::Absolute,
-            top: Val::Px(10.0),
-            left: Val::Px((SCREEN_WIDTH / 4.0) - (SCOREBOARD_TEXT_SIZE / 2.0)),
+            top: Val::Px(SCOREBOARD_TOP_MARGIN),
+            left: Val::Px(SCOREBOARD_HORI_MARGIN),
             ..default()
         }),
         Score { value: 0 }
@@ -48,8 +52,8 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         .with_text_justify(JustifyText::Center)
         .with_style(Style {
             position_type: PositionType::Absolute,
-            top: Val::Px(10.0),
-            left: Val::Px(((SCREEN_WIDTH / 4.0) * 3.0) - (SCOREBOARD_TEXT_SIZE / 2.0)),
+            top: Val::Px(SCOREBOARD_TOP_MARGIN),
+            right: Val::Px(SCOREBOARD_HORI_MARGIN),
             ..default()
         }),
         Score { value: 0 }
