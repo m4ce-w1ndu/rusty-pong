@@ -2,13 +2,12 @@ mod setup;
 mod entities;
 mod input;
 mod scoreboard;
+mod logic;
 
 use input::player_input_system;
 use scoreboard::ScoreboardPlugin;
 use setup::{AppConfiguration, DrawField};
-use bevy::{
-    prelude::*
-};
+use bevy::prelude::*;
 
 
 fn main() {
