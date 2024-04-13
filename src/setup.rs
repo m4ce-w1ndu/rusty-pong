@@ -6,7 +6,7 @@ use bevy::{
     DefaultPlugins
 };
 
-use crate::entities::{Ball, Field, Paddle, Score};
+use crate::entities::{Field, Paddle, Score};
 
 /// Configuration plugin.
 /// 
@@ -45,9 +45,6 @@ pub const PADDLE_X_START: f32 = (SCREEN_WIDTH / 2.0) - (PADDLE_WIDTH / 2.0) - PA
 /// Paddle Y-axis start position
 pub const PADDLE_Y_START: f32 = (PADDLE_HEIGHT / 2.0) - PADDLE_Y_OFFSET;
 
-/// Pong ball radius
-pub const BALL_RADIUS: f32 = 7.0;
-
 /// Number of half field line dots
 pub const HALF_LINE_DOTS: u8 = 40;
 
@@ -78,7 +75,6 @@ impl Plugin for DrawField {
     fn build(&self, app: &mut App) {
         app.add_systems(Startup, setup_camera)
             .add_systems(Startup, draw_paddles)
-            .add_systems(Startup, draw_ball)
             .add_systems(Startup, draw_half);
     }
 }
@@ -126,28 +122,6 @@ fn draw_paddles(
     }));
 
     
-}
-
-/// Draws the ball on to the playing field.
-fn draw_ball(
-    mut commands: Commands,
-    mut meshes: ResMut<Assets<Mesh>>,
-    mut materials: ResMut<Assets<ColorMaterial>>) {
-
-    // Create the ball
-    let ball = Mesh2dHandle(meshes.add(Circle::new(BALL_RADIUS)));
-
-    // Spawn the ball
-    commands.spawn((MaterialMesh2dBundle {
-        mesh: ball,
-        material: materials.add(Color::WHITE),
-        transform: Transform::from_xyz(0.0, 0.0, 0.0),
-        visibility: Visibility::Hidden,
-        ..default()
-    }, Ball {
-        speed: 0.0,
-        visible: false
-    }));
 }
 
 /// Draws the playing field's half line.
