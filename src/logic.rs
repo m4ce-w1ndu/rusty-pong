@@ -6,7 +6,7 @@ use bevy::{
 #[derive(Component, Debug, Default)]
 pub struct Position(pub Vec2);
 
-pub const BALL_RADIUS: f32 = 8.0;
+pub const BALL_SIZE: f32 = 16.0;
 
 pub struct BallPlugin;
 
@@ -21,7 +21,7 @@ fn setup(
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<ColorMaterial>>
 ) {
-    let ball = Mesh2dHandle(meshes.add(Circle::new(BALL_RADIUS)));
+    let ball = Mesh2dHandle(meshes.add(Rectangle::new(BALL_SIZE, BALL_SIZE)));
     let ball_color = materials.add(Color::WHITE);
 
     commands.spawn(MaterialMesh2dBundle {

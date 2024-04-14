@@ -18,7 +18,7 @@ pub struct AppConfiguration;
 pub struct DrawField;
 
 /// Default Pong screen width
-pub const SCREEN_WIDTH: f32 =  828.0;
+pub const SCREEN_WIDTH: f32 = 828.0;
 
 /// Default Pong screen height
 pub const SCREEN_HEIGHT: f32 = 525.0;
