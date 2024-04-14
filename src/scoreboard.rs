@@ -25,37 +25,45 @@ impl Plugin for ScoreboardPlugin {
 
 /// Draws the scoreboard on the playing field
 fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
-    commands.spawn((TextBundle::from_section(
-        "0",
-        TextStyle {
-            font: asset_server.load(SCOREBOARD_FONT),
-            font_size: SCOREBOARD_TEXT_SIZE,
-            ..default()
-        })
+    commands.spawn((
+        TextBundle::from_section(
+            "0",
+            TextStyle {
+                font: asset_server.load(SCOREBOARD_FONT),
+                font_size: SCOREBOARD_TEXT_SIZE,
+                ..default()
+            },
+        )
         .with_text_justify(JustifyText::Center)
         .with_style(Style {
             position_type: PositionType::Absolute,
             top: Val::Px(SCOREBOARD_TOP_MARGIN),
             left: Val::Px(SCOREBOARD_HORI_MARGIN),
+            align_content: AlignContent::Center,
+            align_self: AlignSelf::Center,
             ..default()
         }),
-        Score { value: 0 }
+        Score { value: 0 },
     ));
 
-    commands.spawn((TextBundle::from_section(
-        "0",
-        TextStyle {
-            font: asset_server.load(SCOREBOARD_FONT),
-            font_size: SCOREBOARD_TEXT_SIZE,
-            ..default()
-        })
+    commands.spawn((
+        TextBundle::from_section(
+            "0",
+            TextStyle {
+                font: asset_server.load(SCOREBOARD_FONT),
+                font_size: SCOREBOARD_TEXT_SIZE,
+                ..default()
+            },
+        )
         .with_text_justify(JustifyText::Center)
         .with_style(Style {
             position_type: PositionType::Absolute,
             top: Val::Px(SCOREBOARD_TOP_MARGIN),
             right: Val::Px(SCOREBOARD_HORI_MARGIN),
+            align_content: AlignContent::Center,
+            align_self: AlignSelf::Center,
             ..default()
         }),
-        Score { value: 0 }
+        Score { value: 0 },
     ));
 }
