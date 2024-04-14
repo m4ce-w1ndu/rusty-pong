@@ -99,7 +99,12 @@ fn draw_paddles(
     mut materials: ResMut<Assets<ColorMaterial>>) {
 
     // Create paddles
-    let left_paddle = Mesh2dHandle(meshes.add(Rectangle::new(PADDLE_WIDTH, PADDLE_HEIGHT)));
+    let left_paddle = Mesh2dHandle(meshes.add(
+        Rectangle::from_corners(
+            Vec2::new(-(PADDLE_WIDTH / 2.0), -(PADDLE_HEIGHT / 2.0)),
+            Vec2::new(PADDLE_WIDTH / 2.0, PADDLE_HEIGHT / 2.0)
+        )
+    ));
     let right_paddle = Mesh2dHandle(meshes.add(Rectangle::new(PADDLE_WIDTH, PADDLE_HEIGHT)));
 
     // Spawn the paddles
