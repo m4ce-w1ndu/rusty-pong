@@ -1,9 +1,5 @@
 use bevy::{
-    prelude::*,
-    app::Plugin, 
-    sprite::{MaterialMesh2dBundle, Mesh2dHandle},
-    window::{PresentMode, Window, WindowPlugin, WindowTheme},
-    DefaultPlugins
+    app::Plugin, prelude::*, sprite::{MaterialMesh2dBundle, Mesh2dHandle}, window::{EnabledButtons, PresentMode, Window, WindowPlugin, WindowTheme}, DefaultPlugins
 };
 
 use crate::entities::{Field, Paddle, Score};
@@ -64,6 +60,12 @@ impl Plugin for AppConfiguration {
                 resolution: (SCREEN_WIDTH, SCREEN_HEIGHT).into(),
                 present_mode: PresentMode::AutoVsync,
                 window_theme: Some(WindowTheme::Dark),
+                enabled_buttons: EnabledButtons {
+                    minimize: true,
+                    maximize: false,
+                    close: true,
+                },
+                resizable: false,
                 ..default()
             }), ..default()
         }));
