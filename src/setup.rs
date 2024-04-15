@@ -10,10 +10,9 @@ use crate::components::{
     PlayerType,
     BALL_SIZE,
     PADDLE_HEIGHT,
-    PADDLE_WIDTH
+    PADDLE_WIDTH,
+    PADDLES_PADDING
 };
-
-pub const FIELD_PADDING: f32 = 50.0;
 
 pub struct SetupPlugin;
 
@@ -51,7 +50,7 @@ pub fn spawn_paddles(
 ) {
     if let Ok(window) = window.get_single() {
         let field_width = window.resolution.width();
-        let padding = FIELD_PADDING;
+        let padding = PADDLES_PADDING;
         let right_paddle_x = field_width / 2.0 - padding;
         let left_paddle_x = -field_width / 2.0 + padding;
 

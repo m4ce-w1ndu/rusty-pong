@@ -7,6 +7,14 @@ pub const PADDLE_SPEED: f32 = 1.0;
 pub const PADDLE_WIDTH: f32 = 14.0;
 pub const PADDLE_HEIGHT: f32 = 56.0;
 
+pub const PADDLES_PADDING: f32 = 22.0;
+
+#[derive(Copy, Clone, Eq, PartialEq, Debug)]
+pub enum PlayerType {
+    Ai,
+    Player
+}
+
 /// Position of an entity in the Pong game.
 #[derive(Component)]
 pub struct Position(pub Vec2);
@@ -23,6 +31,20 @@ pub struct Shape(pub Vec2);
 /// This will be added to a bundle, so it is not made fully public.
 #[derive(Component)]
 pub struct Ball;
+
+/// Player is defined as a component with a player type.
+#[derive(Component)]
+pub struct Player {
+    player_type: PlayerType
+}
+
+impl Player {
+    pub fn new(player_type: PlayerType) -> Player {
+        Player {
+            player_type
+        }
+    }
+}
 
 /// BallBundle is a bundle that comprises a Ball and its position.
 #[derive(Bundle)]
