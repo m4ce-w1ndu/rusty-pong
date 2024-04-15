@@ -4,15 +4,16 @@ use bevy::{
 };
 
 use crate::components::{
+    BallBundle,
+    PaddleBundle,
+    Player,
+    PlayerType,
     BALL_SIZE,
     PADDLE_HEIGHT,
-    PADDLE_WIDTH,
-    BallBundle,
-    PaddleBundle
+    PADDLE_WIDTH
 };
 
-pub const INIT_PADDLE_X: f32 = 20.0;
-pub const INIT_PADDLE_Y: f32 = -25.0;
+pub const FIELD_PADDING: f32 = 50.0;
 
 pub struct SetupPlugin;
 
@@ -31,20 +32,12 @@ pub fn spawn_ball(
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<ColorMaterial>>,
 ) {
-    // Add the mesh and material into memory
-    let mesh_handle = meshes.add(
-        Mesh::from(Circle::new(BALL_SIZE))
-    );
-    let material_handle = materials.add(
-        ColorMaterial::from(Color::rgb(1.0, 0.0, 0.0))
-    );
-
     // Spawn the ball
     commands.spawn((
         BallBundle::new(1.0, 0.0),
         MaterialMesh2dBundle {
-            mesh: mesh_handle.into(),
-            material: material_handle,
+            mesh: meshes.add(Mesh::from(Circle::new(BALL_SIZE))).into(),
+            material: materials.add(Color::WHITE),
             ..default()
         }
     ));
@@ -53,17 +46,38 @@ pub fn spawn_ball(
 pub fn spawn_paddles(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
-    mut materials: ResMut<Assets<ColorMaterial>>
+    mut materials: ResMut<Assets<ColorMaterial>>,
+    window: Query<&Window>
 ) {
-    let mesh = Mesh::from(Rectangle::new(PADDLE_WIDTH, PADDLE_HEIGHT));
-    let material = ColorMaterial::from(Color::rgb(0.0, 1.0, 0.0));
+    if let Ok(window) = window.get_single() {
+        let field_width = window.resolution.width();
+        let padding = FIELD_PADDING;
+        let right_paddle_x = field_width / 2.0 - padding;
+        let left_paddle_x = -field_width / 2.0 + padding;
 
-    commands.spawn((
-        PaddleBundle::new(INIT_PADDLE_X, INIT_PADDLE_Y),
-        MaterialMesh2dBundle {
-            mesh: meshes.add(mesh).into(),
-            material: materials.add(material),
-            ..default()
-        }
-    ));
+        let paddle_mesh = Mesh::from(Rectangle::new(
+            PADDLE_WIDTH,
+            PADDLE_HEIGHT
+        ));
+
+        commands.spawn((
+            Player::new(PlayerType::Player),
+            PaddleBundle::new(right_paddle_x, 0.0),
+            MaterialMesh2dBundle {
+                mesh: meshes.add(paddle_mesh.clone()).into(),
+                material: materials.add(Color::WHITE),
+                ..default()
+            }
+        ));
+
+        commands.spawn((
+            Player::new(PlayerType::Ai),
+            PaddleBundle::new(left_paddle_x, 0.0),
+            MaterialMesh2dBundle {
+                mesh: meshes.add(paddle_mesh.clone()).into(),
+                material: materials.add(Color::WHITE),
+                ..default()
+            }
+        ));
+    }
 }
