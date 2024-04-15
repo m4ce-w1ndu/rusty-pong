@@ -2,7 +2,11 @@ use bevy::prelude::*;
 
 /// Position of an entity in the Pong game.
 #[derive(Component)]
-pub struct Position(Vec2);
+pub struct Position(pub Vec2);
+
+/// Velocity of an entity.
+#[derive(Component)]
+pub struct Velocity(pub Vec2);
 
 /// Ball component.
 /// 
@@ -14,6 +18,7 @@ pub struct Ball;
 #[derive(Bundle)]
 pub struct BallBundle {
     ball: Ball,
+    velocity: Velocity,
     position: Position
 }
 
@@ -24,7 +29,8 @@ impl BallBundle {
     pub fn new(x: f32, y: f32) -> BallBundle {
         BallBundle {
             ball: Ball,
-            position: Position(Vec2::new(x, y))
+            velocity: Velocity(Vec2::new(x, y)),
+            position: Position(Vec2::new(0.0, 0.0))
         }
     }
 }
@@ -64,28 +70,10 @@ impl Plugin for CameraPlugin {
     }
 }
 
-pub struct PositionPlugin;
-
-impl Plugin for PositionPlugin {
-    fn build(&self, app: &mut App) {
-        app.add_systems(Update, update_positions);
-    }
-}
-
 /// Spawn the camera onto the playing field.
 fn spawn_camera(
     mut commands: Commands,
 ) {
     commands.spawn_empty()
         .insert(Camera2dBundle::default());
-}
-
-/// Updates all transforms based on the associted position.
-/// 
-/// Arguments:
-/// * `pos`: positions query.
-fn update_positions(mut pos: Query<(&mut Transform, &Position)>) {
-    for (mut transform, position) in &mut pos {
-        transform.translation = position.0.extend(0.0);
-    }
 }

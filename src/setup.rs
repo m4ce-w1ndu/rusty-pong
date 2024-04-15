@@ -28,16 +28,17 @@ pub fn spawn_ball(
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<ColorMaterial>>,
 ) {
-    let shape = Mesh::from(Circle::new(BallBundle::BALL_SIZE));
-    let color = ColorMaterial::from(Color::rgb(1.0, 0.0, 0.0));
-
     // Add the mesh and material into memory
-    let mesh_handle = meshes.add(shape);
-    let material_handle = materials.add(color);
+    let mesh_handle = meshes.add(
+        Mesh::from(Circle::new(BallBundle::BALL_SIZE))
+    );
+    let material_handle = materials.add(
+        ColorMaterial::from(Color::rgb(1.0, 0.0, 0.0))
+    );
 
     // Spawn the ball
     commands.spawn((
-        BallBundle::new(0.0, 0.0),
+        BallBundle::new(1.0, 0.0),
         MaterialMesh2dBundle {
             mesh: mesh_handle.into(),
             material: material_handle,
