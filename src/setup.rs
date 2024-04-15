@@ -4,6 +4,9 @@ use bevy::{
 };
 
 use crate::components::{
+    BALL_SIZE,
+    PADDLE_HEIGHT,
+    PADDLE_WIDTH,
     BallBundle,
     PaddleBundle
 };
@@ -30,7 +33,7 @@ pub fn spawn_ball(
 ) {
     // Add the mesh and material into memory
     let mesh_handle = meshes.add(
-        Mesh::from(Circle::new(BallBundle::BALL_SIZE))
+        Mesh::from(Circle::new(BALL_SIZE))
     );
     let material_handle = materials.add(
         ColorMaterial::from(Color::rgb(1.0, 0.0, 0.0))
@@ -52,7 +55,7 @@ pub fn spawn_paddles(
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<ColorMaterial>>
 ) {
-    let mesh = Mesh::from(Rectangle::new(PaddleBundle::PADDLE_WIDTH, PaddleBundle::PADDLE_HEIGHT));
+    let mesh = Mesh::from(Rectangle::new(PADDLE_WIDTH, PADDLE_HEIGHT));
     let material = ColorMaterial::from(Color::rgb(0.0, 1.0, 0.0));
 
     commands.spawn((

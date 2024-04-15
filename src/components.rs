@@ -1,5 +1,12 @@
 use bevy::prelude::*;
 
+/// Size of a Ball (radius)
+pub const BALL_SIZE: f32 = 5.0;
+
+pub const PADDLE_SPEED: f32 = 1.0;
+pub const PADDLE_WIDTH: f32 = 14.0;
+pub const PADDLE_HEIGHT: f32 = 56.0;
+
 /// Position of an entity in the Pong game.
 #[derive(Component)]
 pub struct Position(pub Vec2);
@@ -7,6 +14,9 @@ pub struct Position(pub Vec2);
 /// Velocity of an entity.
 #[derive(Component)]
 pub struct Velocity(pub Vec2);
+
+#[derive(Component)]
+pub struct Shape(pub Vec2);
 
 /// Ball component.
 /// 
@@ -18,17 +28,16 @@ pub struct Ball;
 #[derive(Bundle)]
 pub struct BallBundle {
     ball: Ball,
+    shape: Shape,
     velocity: Velocity,
     position: Position
 }
 
 impl BallBundle {
-    /// Size of a Ball (radius)
-    pub const BALL_SIZE: f32 = 5.0;
-
     pub fn new(x: f32, y: f32) -> BallBundle {
         BallBundle {
             ball: Ball,
+            shape: Shape(Vec2::new(BALL_SIZE, BALL_SIZE)),
             velocity: Velocity(Vec2::new(x, y)),
             position: Position(Vec2::new(0.0, 0.0))
         }
@@ -45,18 +54,18 @@ pub struct Paddle;
 #[derive(Bundle)]
 pub struct PaddleBundle {
     paddle: Paddle,
-    position: Position
+    shape: Shape,
+    position: Position,
+    velocity: Velocity
 }
 
 impl PaddleBundle {
-    pub const PADDLE_SPEED: f32 = 1.0;
-    pub const PADDLE_WIDTH: f32 = 14.0;
-    pub const PADDLE_HEIGHT: f32 = 56.0;
-
     pub fn new(x: f32, y: f32) -> PaddleBundle {
         PaddleBundle {
             paddle: Paddle,
-            position: Position(Vec2::new(x, y))
+            shape: Shape(Vec2::new(PADDLE_WIDTH, PADDLE_HEIGHT)),
+            position: Position(Vec2::new(x, y)),
+            velocity: Velocity(Vec2::new(0.0, 0.0))
         }
     }
 }
