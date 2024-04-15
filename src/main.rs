@@ -1,22 +1,31 @@
-mod setup;
-mod entities;
-mod input;
-mod scoreboard;
-mod logic;
-
-use input::player_input_system;
-use logic::BallPlugin;
-use scoreboard::ScoreboardPlugin;
-use setup::{AppConfiguration, DrawField};
 use bevy::prelude::*;
+use components::Position;
 
+use crate::components::BallBundle;
+
+mod components;
 
 fn main() {
     App::new()
-        .add_plugins(AppConfiguration)
-        .add_plugins(DrawField)
-        .add_plugins(ScoreboardPlugin)
-        .add_plugins(BallPlugin)
-        .add_systems(Update, player_input_system)
+        .add_plugins(DefaultPlugins)
+        .add_systems(Startup, (spawn_ball, spawn_camera))
+        .add_systems(Update, (Position::update_positions))
         .run();
+}
+
+fn spawn_ball(
+    mut commands: Commands,
+) {
+    println!("Spawning ball...");
+    commands
+        .spawn_empty()
+        .insert(Transform::default())
+        .insert(BallBundle::new());
+}
+
+fn spawn_camera(
+    mut commands: Commands
+) {
+    commands
+        .spawn_empty();
 }
