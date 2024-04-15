@@ -21,10 +21,36 @@ impl BallBundle {
     /// Size of a Ball (radius)
     pub const BALL_SIZE: f32 = 5.0;
 
-    pub fn new(x_pos: f32, y_pos: f32) -> BallBundle {
+    pub fn new(x: f32, y: f32) -> BallBundle {
         BallBundle {
             ball: Ball,
-            position: Position(Vec2::new(x_pos, y_pos))
+            position: Position(Vec2::new(x, y))
+        }
+    }
+}
+
+/// Game paddle.
+#[derive(Component)]
+pub struct Paddle;
+
+/// Paddle bundle.
+/// 
+/// Combines a paddle and its position.
+#[derive(Bundle)]
+pub struct PaddleBundle {
+    paddle: Paddle,
+    position: Position
+}
+
+impl PaddleBundle {
+    pub const PADDLE_SPEED: f32 = 1.0;
+    pub const PADDLE_WIDTH: f32 = 14.0;
+    pub const PADDLE_HEIGHT: f32 = 56.0;
+
+    pub fn new(x: f32, y: f32) -> PaddleBundle {
+        PaddleBundle {
+            paddle: Paddle,
+            position: Position(Vec2::new(x, y))
         }
     }
 }
