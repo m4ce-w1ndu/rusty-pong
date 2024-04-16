@@ -9,6 +9,8 @@ pub const PADDLE_HEIGHT: f32 = 56.0;
 
 pub const PADDLES_PADDING: f32 = 22.0;
 
+pub const FIELD_LIMIT_HEIGHT: f32 = 20.0;
+
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
 pub enum PlayerType {
     Ai,
@@ -16,14 +18,14 @@ pub enum PlayerType {
 }
 
 /// Position of an entity in the Pong game.
-#[derive(Component)]
+#[derive(Component, Clone)]
 pub struct Position(pub Vec2);
 
 /// Velocity of an entity.
-#[derive(Component)]
+#[derive(Component, Clone)]
 pub struct Velocity(pub Vec2);
 
-#[derive(Component)]
+#[derive(Component, Clone)]
 pub struct Shape(pub Vec2);
 
 /// Ball component.
@@ -31,6 +33,28 @@ pub struct Shape(pub Vec2);
 /// This will be added to a bundle, so it is not made fully public.
 #[derive(Component)]
 pub struct Ball;
+
+/// Field lower, upper, left and right limits.
+#[derive(Component, Clone)]
+pub struct FieldLimit;
+
+/// Bundle to create field limits
+#[derive(Bundle, Clone)]
+pub struct FieldLimitBundle {
+    pub limit: FieldLimit,
+    pub shape: Shape,
+    pub position: Position
+}
+
+impl FieldLimitBundle {
+    pub fn new(x: f32, y: f32, width: f32) -> FieldLimitBundle {
+        FieldLimitBundle {
+            limit: FieldLimit,
+            shape: Shape(Vec2::new(width, FIELD_LIMIT_HEIGHT)),
+            position: Position(Vec2::new(x, y))
+        }
+    }
+}
 
 /// Player is defined as a component with a player type.
 #[derive(Component)]
